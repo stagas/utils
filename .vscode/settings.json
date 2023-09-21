@@ -1,0 +1,35 @@
+{
+  "workbench.colorCustomizations": {
+    "activityBar.activeBackground": "#f3bef9",
+    "activityBar.background": "#f3bef9",
+    "activityBar.foreground": "#15202b",
+    "activityBar.inactiveForeground": "#15202b99",
+    "activityBarBadge.background": "#92840d",
+    "activityBarBadge.foreground": "#e7e7e7",
+    "commandCenter.border": "#15202b99",
+    "editorGroup.border": "#f3bef9",
+    "panel.border": "#f3bef9",
+    "sash.hoverBorder": "#f3bef9",
+    "sideBar.border": "#f3bef9",
+    "statusBar.background": "#ea90f4",
+    "statusBar.border": "#ea90f4",
+    "statusBar.debuggingBackground": "#9af490",
+    "statusBar.debuggingBorder": "#9af490",
+    "statusBar.debuggingForeground": "#15202b",
+    "statusBar.foreground": "#15202b",
+    "statusBarItem.hoverBackground": "#e162ef",
+    "statusBarItem.remoteBackground": "#ea90f4",
+    "statusBarItem.remoteForeground": "#15202b",
+    "tab.activeBorder": "#f3bef9",
+    "titleBar.activeBackground": "#ea90f4",
+    "titleBar.activeForeground": "#15202b",
+    "titleBar.border": "#ea90f4",
+    "titleBar.inactiveBackground": "#ea90f499",
+    "titleBar.inactiveForeground": "#15202b99"
+  },
+  "peacock.color": "#ea90f4",
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "exportall.config.folderListener": [
+    "/src"
+  ]
+}
