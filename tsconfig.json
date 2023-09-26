@@ -7,7 +7,7 @@
     "lib": [
       "ESNext",
       "DOM",
-      "DOM.Iterable"
+      "DOM.Iterable",
     ],
     "noEmit": true,
     "module": "ESNext",
@@ -35,6 +35,6 @@
     "sourceMap": true,
     "allowJs": true,
     // "incremental": true,
-    "strict": true
-  }
+    "strict": true,
+  },
 }

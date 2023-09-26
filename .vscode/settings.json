@@ -31,5 +31,7 @@
   "typescript.tsdk": "node_modules/typescript/lib",
   "exportall.config.folderListener": [
     "/src"
-  ]
+  ],
+  "deno.lint": false,
+  "deno.unstable": false
 }

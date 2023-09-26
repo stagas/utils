@@ -1,4 +1,4 @@
-import { Keys, NonNull, ObjectFromList } from './types'
+import { Keys, NonNull, ObjectFromList } from './types.ts'
 
 export type ObjectFilterFn = (entry: [string, unknown]) => boolean
 

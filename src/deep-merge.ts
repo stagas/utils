@@ -1,4 +1,4 @@
-import { isArrayLike, isObject } from './is'
+import { isArrayLike, isObject } from './is.ts'
 
 export type DeepPartial<T> = { [K in keyof T]?:
   T[K] extends object

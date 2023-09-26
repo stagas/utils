@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "lib": [
+      "esnext",
+      "dom",
+      "dom.iterable",
+      "dom.asynciterable"
+    ]
+  },
+  "fmt": {
+    "singleQuote": true,
+    "semiColons": false
+  }
+}

@@ -1,4 +1,4 @@
-import { checksum } from './checksum'
+import { checksum } from './checksum.ts'
 
 export function colorHash(string: string, minColorHex = '888', maxColorHex = 'bbb') {
   const minColor = parseInt(minColorHex, 16)

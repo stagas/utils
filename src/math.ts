@@ -5,18 +5,18 @@ export function clamp(min: number, max: number, x: number) {
 }
 
 // chatgpt
-export function nearestPowerOfTwo(x: number): number {
+export function nextPowerOfTwo(x: number): number {
   // If x is already a power of two, return it
   if ((x & (x - 1)) === 0) {
-    return x;
+    return x
   }
 
   // Find the nearest power of two greater than x
-  let power = 1;
+  let power = 1
   while (power < x) {
-    power <<= 1;
+    power <<= 1
   }
-  return power;
+  return power
 }
 
 export function findPower(x: number): number {

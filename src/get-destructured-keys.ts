@@ -63,7 +63,7 @@ export function getDestructuredKeysTwo<T extends string>(fn: Fn) {
   return fn.keys2
 }
 
-export function test() {
+export function test_getDestructuredKeys() {
   // @env browser
   describe('one', () => {
     it('works', () => {

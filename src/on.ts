@@ -1,5 +1,7 @@
-import * as String from './string'
-import { Fn, Get, Keys, Narrow, StringLiteral, StringOf } from './types'
+import { Deferred } from './deferred.ts'
+import { assign } from './object.ts'
+import * as String from './string.ts'
+import { Fn, Get, Keys, Narrow, StringLiteral, StringOf } from './types.ts'
 
 export type SansOn<T> = String.Split<StringOf<T>, ' on'>
 export type EventKeys<T> = keyof EventsOf<T>
@@ -30,7 +32,7 @@ export interface EventHandler<T, E> {
   (this: T, event: E & { currentTarget?: T; target?: Element }): any
 }
 
-export function on<T extends EventTarget, K extends EventKeys<T>>(
+function onEvent<T extends EventTarget, K extends EventKeys<T>>(
   t: T,
   e: K,
   f: EventHandler<T, EventsOf<T>[K]>,
@@ -40,6 +42,31 @@ export function on<T extends EventTarget, K extends EventKeys<T>>(
   return () => t.removeEventListener(e as any, f as any, options)
 }
 
-// const off = on(window, 'contextmenu', (e) => {
+export const on = assign(onEvent, {
+  once: function onEventOnce<T extends EventTarget, K extends EventKeys<T>>(
+    t: T,
+    e: K,
+    f: EventHandler<T, EventsOf<T>[K]>,
+    options?: AddEventListenerOptions
+  ) {
+    options = { ...options, once: true }
 
-// })
+    const deferred = Deferred<EventsOf<T>[K]>()
+
+    const inner: any = function (this: any, e: any) {
+      const retValue = f.call(this, e)
+      deferred.resolve(e)
+      return retValue
+    }
+
+    t.addEventListener(e as any, inner, options)
+
+    return Object.assign(
+      () => t.removeEventListener(e as any, inner, options),
+      {
+        then: deferred.promise.then.bind(deferred.promise),
+        catch: deferred.promise.catch.bind(deferred.promise),
+      }
+    )
+  }
+})

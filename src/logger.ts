@@ -1,5 +1,5 @@
-import { EventEmitter, ansiColorFor, checksum, colorHash } from '.'
-import { getFileId } from './get-file-id'
+import { EventEmitter, ansiColorFor, checksum, colorHash } from './index.ts'
+import { getFileId } from './get-file-id.ts'
 
 // @ts-ignore
 Symbol.dispose ||= Symbol.for('Symbol.dispose')
@@ -149,16 +149,22 @@ export function logger(path: string): Logger {
   }
 
   const log = (op: string, ...args: any[]) => {
-    if (c.options.prod) return
+    if (c.options.prod) return []
     return c.options.quiet ? [] : [[op, args]]
   }
 
+  if (typeof location === 'undefined') {
+    // @ts-ignore
+    location = new URL('http://com/')
+  }
   const searchParams = new URL(location.href).searchParams
   const filter =
     searchParams.get('filter')?.split(',')
     ?? searchParams.get('fi')?.split(',')
   const expand = searchParams.has('expand') || searchParams.has('ex')
   c.options.quiet ||= searchParams.has('qu')
+  c.options.prod ||= searchParams.has('prod')
+  if (c.options.prod) c.options.quiet = true
 
   const fn = Object.assign(log, {
     id: (id: string) => {
@@ -179,7 +185,7 @@ export function logger(path: string): Logger {
         }
       }
 
-      const path = getLineOrigin(fn.push)
+      const path = '' //getLineOrigin(fn.push)
       if (lab.endsWith('?')) {
         c.labels.set(lab, { path, kind: LogKind[LogKind.Branch], color: colorHash(withId(cleanTag(label))) })
       }
@@ -249,7 +255,7 @@ export function logger(path: string): Logger {
 function wrapAllEmitter<T>(id: string, obj: T): T {
   function wrap(fn: any): any {
     return Object.assign(function (this: any, ...args: any[]) {
-      if (c.options.prod) return
+      if (c.options.prod) return []
 
       c.emitter.emit('event', id, args)
 

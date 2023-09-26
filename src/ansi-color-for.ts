@@ -1,4 +1,4 @@
-import { colorHash } from './color-hash'
+import { colorHash } from './color-hash.ts'
 
 export function ansiColorFor(string: string) {
   const [r, g, b] = colorHash(string).split('').map(x => parseInt(x + x, 16))

@@ -10,7 +10,7 @@ export function debounce<T extends (...args: any[]) => any>(ms: number, fn: T): 
   function resolver() {
     now = performance.now()
     delta = timeToResolve - now
-    if (delta > 0) {
+    if (delta > 5) {
       setTimeout(resolver, delta)
     }
     else {
@@ -29,4 +29,40 @@ export function debounce<T extends (...args: any[]) => any>(ms: number, fn: T): 
   }
 
   return wrapper as T
+}
+
+export async function test_debounce() {
+  // @env browser
+
+  describe('debounce', () => {
+    it('works', async () => {
+      let a = 0
+      const fn = debounce(50, () => {
+        a++
+      })
+
+      fn()
+      fn()
+      fn()
+      await new Promise(resolve => setTimeout(resolve, 10))
+      fn()
+      fn()
+      fn()
+      fn()
+      await new Promise(resolve => setTimeout(resolve, 100))
+      expect(a).toEqual(1)
+
+      fn()
+      fn()
+      fn()
+      await new Promise(resolve => setTimeout(resolve, 10))
+      fn()
+      fn()
+      fn()
+      fn()
+      expect(a).toEqual(1)
+      await new Promise(resolve => setTimeout(resolve, 100))
+      expect(a).toEqual(2)
+    })
+  })
 }
