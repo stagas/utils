@@ -167,14 +167,14 @@ export function logger(path: string): Logger {
   if (c.options.prod) c.options.quiet = true
 
   const fn = Object.assign(log, {
-    id: (id: string) => {
+    id(id: string) {
       c.itemId = id
       return wrapped
     },
-    label: (label: string, asTop = false) => {
+    label(label: string, asTop = false) {
       return wrapped.push(label, asTop, false)
     },
-    push: (label: string, isTop = false, isGroup = true) => {
+    push(label: string, isTop = false, isGroup = true) {
       const [l, t] = splitTag(label)
       const tag = (t ? ':' + t : '')
       const lab = fixReserved(isTop ? l : withId(breaks(id, l)))
@@ -213,7 +213,7 @@ export function logger(path: string): Logger {
         ]
       ]
     },
-    pop: (label: string, isTop = false) => {
+    pop(label: string, isTop = false) {
       const top = c.stack.pop()
       c.ops.push(c.stack.join(' -> '))
       const lab = (isTop ? cleanTag(label) : withId(cleanTag(breaks(id, label))))
@@ -222,12 +222,12 @@ export function logger(path: string): Logger {
       }
       return c.options.quiet ? [] : [['groupEnd', []]]
     },
-    asTop: (payload: string) => {
+    asTop(payload: string) {
       const [op, ...rest] = payload.split(' ')
       const text = rest.join(' ')
       return wrapped[op](text, true)
     },
-    clearStack: () => {
+    clearStack() {
       c.ops.splice(0)
       c.stack.splice(0)
     }
@@ -254,7 +254,7 @@ export function logger(path: string): Logger {
 
 function wrapAllEmitter<T>(id: string, obj: T): T {
   function wrap(fn: any): any {
-    return Object.assign(function (this: any, ...args: any[]) {
+    return Object.assign(function __logfn(this: any, ...args: any[]) {
       if (c.options.prod) return []
 
       c.emitter.emit('event', id, args)

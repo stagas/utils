@@ -1,19 +1,21 @@
-interface EventEmitterOptions {
-  once?: boolean;
+export interface EventEmitterOptions {
+  once?: boolean
 }
+export type EventEmitterBaseEventMap = Record<string, any>
+export type EventEmitterEventKeys<T> = T extends EventEmitter<infer U> ? U extends Record<infer K, any> ? K : never : never
+export type EventEmitterEvents<T> = T extends EventEmitter<infer U> ? U : never
+
 
 type EventEmitterListenerItem = EventEmitterOptions & {
-  callback: (...args: unknown[]) => void;
-};
-
-type EventEmitterBaseEventMap = Record<string, any>;
+  callback: (...args: unknown[]) => void
+}
 
 type Off = () => void
 
 /**
  * A EventEmitter work like node/event
  */
-export class EventEmitter<E extends EventEmitterBaseEventMap> {
+export class EventEmitter<E extends EventEmitterBaseEventMap = {}> {
   #listeners = {} as Record<keyof E, EventEmitterListenerItem[]>;
 
   get listeners() {

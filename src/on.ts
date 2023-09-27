@@ -1,4 +1,5 @@
 import { Deferred } from './deferred.ts'
+import { EventEmitter, EventEmitterEventKeys, EventEmitterEvents, EventEmitterOptions } from './event-emitter.ts'
 import { assign } from './object.ts'
 import * as String from './string.ts'
 import { Fn, Get, Keys, Narrow, StringLiteral, StringOf } from './types.ts'
@@ -32,14 +33,34 @@ export interface EventHandler<T, E> {
   (this: T, event: E & { currentTarget?: T; target?: Element }): any
 }
 
+function onEvent<T extends EventEmitter<any>, K extends EventEmitterEventKeys<T>>(
+  t: T,
+  e: K,
+  f: EventEmitterEvents<T>[K],
+  options?: EventEmitterOptions
+): Off
 function onEvent<T extends EventTarget, K extends EventKeys<T>>(
   t: T,
   e: K,
   f: EventHandler<T, EventsOf<T>[K]>,
   options?: AddEventListenerOptions
-) {
-  t.addEventListener(e as any, f as any, options)
-  return () => t.removeEventListener(e as any, f as any, options)
+): Off
+function onEvent<T extends EventTarget | EventEmitter<any>>(
+  t: T,
+  e: any,
+  f: any,
+  options?: AddEventListenerOptions
+): Off {
+  if (t instanceof EventTarget) {
+    t.addEventListener(e as any, f as any, options)
+    return () => t.removeEventListener(e as any, f as any, options)
+  }
+  else if (t instanceof EventEmitter) {
+    return t.on(e, f, options)
+  }
+  else {
+    throw new TypeError('Cannot listen for events, object is neither an EventTarget nor an EventEmitter.')
+  }
 }
 
 export const on = assign(onEvent, {
