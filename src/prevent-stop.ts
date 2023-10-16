@@ -1,17 +1,17 @@
-export const prevent = Object.assign((e: Event) => {
-  e.preventDefault()
+export const prevent = Object.assign((e: Partial<Event>) => {
+  e.preventDefault?.()
 }, {
-  stop: (e: Event) => {
-    e.preventDefault()
-    e.stopPropagation()
+  stop: (e: Partial<Event>) => {
+    e.preventDefault?.()
+    e.stopPropagation?.()
   }
 })
 
-export const stop = Object.assign((e: Event) => {
-  e.stopPropagation()
+export const stop = Object.assign((e: Partial<Event>) => {
+  e.stopPropagation?.()
 }, {
-  prevent: (e: Event) => {
-    e.preventDefault()
-    e.stopPropagation()
+  prevent: (e: Partial<Event>) => {
+    e.preventDefault?.()
+    e.stopPropagation?.()
   }
 })

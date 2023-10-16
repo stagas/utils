@@ -28,7 +28,9 @@ export type Log = {
   id(label: string, id: string, ...args: any[]): void
   push: Logger
   pop: Logger
+  pretty: Logger
   clearStack: () => void
+  active: boolean
 }
 
 function breaks(id: string, s: string) {
@@ -230,8 +232,18 @@ export function logger(path: string): Logger {
     clearStack() {
       c.ops.splice(0)
       c.stack.splice(0)
+    },
+    ['info.pretty'](label: any, obj: any) {
+      return wrapped['info'](label, JSON.stringify(obj, replacer, 2))
     }
   })
+
+  function replacer(key: any, value: any) {
+    if (typeof value === 'string') {
+      return value.length > 10 ? value.slice(0, 10) + ' [..]' : value
+    }
+    return value
+  }
 
   const wrapped = wrapAllEmitter(id, fn) as any
 

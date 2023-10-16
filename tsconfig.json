@@ -1,13 +1,14 @@
 {
   "include": [
-    "."
+    "src",
+    "ambient.d.ts"
   ],
   "compilerOptions": {
     "rootDir": ".",
     "lib": [
       "ESNext",
       "DOM",
-      "DOM.Iterable",
+      "DOM.Iterable"
     ],
     "noEmit": true,
     "module": "ESNext",

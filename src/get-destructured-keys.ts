@@ -9,6 +9,9 @@ const replacer = () => {
   return ''
 }
 
+const cache = new Map<string, string[]>()
+const cache2 = new Map<string, [a: string[], b: string[]]>()
+
 const parse = (d: number, x: string) => {
   x = x.slice(d)
 
@@ -27,6 +30,13 @@ export function getDestructuredKeys<T extends string>(fn: Fn) {
   if (fn.keys) return fn.keys
 
   let x = fn.toString()
+
+  const keys = cache.get(x)
+  if (keys) {
+    fn.keys = keys
+    return fn.keys
+  }
+
   const d = x.indexOf('{') + 1
 
   if (!d || x.slice(0, d).includes(')')) {
@@ -36,6 +46,8 @@ export function getDestructuredKeys<T extends string>(fn: Fn) {
     fn.keys = parse(d, x)
   }
 
+  cache.set(x, fn.keys)
+
   return fn.keys
 }
 
@@ -43,6 +55,13 @@ export function getDestructuredKeysTwo<T extends string>(fn: Fn) {
   if (fn.keys2) return fn.keys2
 
   let x = fn.toString()
+
+  const keys2 = cache2.get(x)
+  if (keys2) {
+    fn.keys2 = keys2
+    return fn.keys2
+  }
+
   let y = x.slice(0, x.indexOf(')'))
 
   const d = x.indexOf('{') + 1
@@ -59,6 +78,8 @@ export function getDestructuredKeysTwo<T extends string>(fn: Fn) {
     b = parse(d2, y)
     fn.keys2 = [a, b]
   }
+
+  cache2.set(x, fn.keys2)
 
   return fn.keys2
 }

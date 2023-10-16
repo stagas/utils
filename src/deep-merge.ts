@@ -14,7 +14,7 @@ export function deepMerge<T extends object>(dst: T, src: DeepPartial<T> | undefi
     if (
       isObject(value)
       && isObject(current)
-      && !isArrayLike(current)
+      && !Array.isArray(current)
     ) {
       if (!depth) {
         dst[key] = value

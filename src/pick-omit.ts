@@ -30,11 +30,14 @@ export const nonNull = <T>(obj: T): Pick<T, keyof NonNull<T>> =>
  * @param props Properties to pick.
  * @returns A new object with the picked properties.
  */
-export const pick = <T, K extends (keyof T)[]>(obj: T, props: K): Pick<T, keyof ObjectFromList<K>> =>
-  props.reduce((p, n) => {
-    if (n in (obj as any)) p[n] = obj[n]
-    return p
-  }, {} as any) as Pick<T, keyof ObjectFromList<K>>
+export const pick: {
+  <T, K extends (keyof T)[]>(obj: T, props: K): Pick<T, keyof ObjectFromList<K>>
+  <T, K extends readonly (keyof T)[]>(obj: T, props: K): Pick<T, keyof ObjectFromList<K>>
+} = <T, K extends (keyof T)[]>(obj: T, props: K): Pick<T, keyof ObjectFromList<K>> =>
+    props.reduce((p, n) => {
+      if (n in (obj as any)) p[n] = obj[n]
+      return p
+    }, {} as any) as Pick<T, keyof ObjectFromList<K>>
 
 /**
  * Create a new object with certain properties omitted.

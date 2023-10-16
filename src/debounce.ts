@@ -1,11 +1,15 @@
-export function debounce<T extends (...args: any[]) => any>(ms: number, fn: T): T {
+interface DebounceOptions {
+  first?: boolean
+  last?: boolean
+}
+export function debounce<T extends (...args: any[]) => any>(ms: number, fn: T, options?: DebounceOptions): T {
   let resolving = false
 
   let timeToResolve: number
   let now: number
   let delta: number
   let callThis: any
-  let callArgs: any[]
+  let callArgs: any
 
   function resolver() {
     now = performance.now()
@@ -13,7 +17,7 @@ export function debounce<T extends (...args: any[]) => any>(ms: number, fn: T): 
     if (delta > 5) {
       setTimeout(resolver, delta)
     }
-    else {
+    else if (callArgs) {
       fn.apply(callThis, callArgs)
       resolving = false
     }
@@ -24,6 +28,12 @@ export function debounce<T extends (...args: any[]) => any>(ms: number, fn: T): 
     callArgs = args
     timeToResolve = performance.now() + ms
     if (resolving) return
+    if (options?.first) {
+      fn.apply(callThis, callArgs)
+      if (!options.last) {
+        callArgs = void 0
+      }
+    }
     resolving = true
     setTimeout(resolver, ms)
   }

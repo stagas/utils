@@ -1,4 +1,4 @@
-import memoize from './memoize.ts'
+import { memoize } from './memoize.ts'
 
 let fmtMemoized: typeof fmtFormat
 export function fmt(

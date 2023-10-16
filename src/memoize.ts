@@ -13,16 +13,22 @@
  * @param map A map object to use as memory
  * @returns The memoized function
  */
-export const memoize = <T>(
-  fn: T & { apply(context: unknown, args: unknown[]): unknown },
-  map = Object.create(null)
-) => {
-  const wrapped = function (this: unknown, ...args: unknown[]) {
+type FnManyArgs = (...args: any[]) => any
+export function memoize<T>(fn: T & FnManyArgs, map = Object.create(null)): T {
+  function wrapped(this: any, ...args: any[]) {
     const serialized = args.join()
     return map[serialized] ?? (map[serialized] = fn.apply(this, args))
   }
-
-  return wrapped as unknown as T
+  return wrapped as T
 }
 
-export default memoize
+type FnOneArg = (arg: {}) => any
+export function memoizeByRef<T>(fn: T & FnOneArg, map = new Map()): T {
+  function wrapped(this: any, arg: {}) {
+    if (map.has(arg)) return map.get(arg)
+    let res
+    map.set(arg, res = fn.call(this, arg))
+    return res
+  }
+  return wrapped as T
+}
