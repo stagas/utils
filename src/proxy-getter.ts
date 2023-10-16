@@ -9,6 +9,7 @@ export const Getter = <T>(cb: (key: string) => T, target: any = {}): GetterRetur
   new Proxy(target, { get: (_, key: string) => cb(key) })
 
 export function test_proxy_getter() {
+  // @env browser
   describe('Getter(cb)', () => {
     it('creates a getter', () => {
       const results: string[] = []
