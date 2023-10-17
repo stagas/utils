@@ -93,10 +93,15 @@ export const rpc = <TRemote extends object>(
 
     calls.set(cid, deferred)
 
-    port.postMessage(
-      { method, args, cid },
-      xfer(args, transferables)
-    )
+    try {
+      port.postMessage(
+        { method, args, cid },
+        xfer(args, transferables)
+      )
+    }
+    catch (error) {
+      console.error('Call failed: ' + method, args)
+    }
 
     return deferred.promise
   }
