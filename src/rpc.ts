@@ -7,10 +7,17 @@ const defaultTransferables: Ctor[] = [
   typeof MessagePort !== 'undefined' ? MessagePort : void 0
 ].filter(Boolean) as Ctor[]
 
+interface PortLike {
+  onmessage: ((ev: MessageEvent) => any) | null
+  onmessageerror: ((ev: MessageEvent) => any) | null
+  postMessage(message: any, transfer: Transferable[]): void
+  postMessage(message: any, options?: StructuredSerializeOptions): void
+}
+
 export type Rpc = (method: string, ...args: any[]) => any
 
 export const rpc = <TRemote extends object>(
-  port: MessagePort,
+  port: PortLike,
   api: Record<string, any> = {},
   transferables: Ctor[] = defaultTransferables
 ) => {
