@@ -13,7 +13,7 @@ export class MissingDependencyError extends Error {
 
 const requiredProxyHandler = {
   get(_: any, prop: any) {
-    console.log(prop, requiredTarget[prop])
+    // console.log(prop, requiredTarget[prop])
     if (prop in requiredTarget && requiredTarget[prop] != null) {
       return requiredTarget[prop]
     }
