@@ -24,7 +24,6 @@ const requiredProxyHandlerTruthyFast = {
     if (prop in t && t[prop]) {
       return t[prop]
     }
-    console.log('NONTRUTHY', prop)
     throw NonTruthyDependencyErrorSymbol
   }
 }
@@ -34,7 +33,6 @@ const requiredProxyHandlerFast = {
     if (prop in t && t[prop] != null) {
       return t[prop]
     }
-    console.log('MISSING', prop)
     throw MissingDependencyErrorSymbol
   }
 }
