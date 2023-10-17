@@ -40,6 +40,7 @@ const requiredProxyHandlerFast = {
 
 const requiredProxyHandler = {
   get(t: any, prop: any) {
+    console.log('DA FQ')
     if (prop in t && t[prop] != null) {
       return t[prop]
     }
