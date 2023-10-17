@@ -12,6 +12,18 @@ export class MissingDependencyError extends Error {
   }
 }
 
+const requiredProxyHandlerTruthyFast = {
+  get(_: any, prop: any) {
+    // requiredTarget can be overwritten at the getter, so we use a const copy here.
+    const t = requiredTarget
+    if (prop in t && t[prop]) {
+      return t[prop]
+    }
+    // TODO: we reuse the symbol, but maybe we need different?
+    throw MissingDependencyErrorSymbol
+  }
+}
+
 const requiredProxyHandlerFast = {
   get(_: any, prop: any) {
     // requiredTarget can be overwritten at the getter, so we use a const copy here.
@@ -34,8 +46,14 @@ const requiredProxyHandler = {
   }
 }
 
+const RequiredProxyTruthyFast = new Proxy({}, requiredProxyHandlerTruthyFast)
 const RequiredProxyFast = new Proxy({}, requiredProxyHandlerFast)
 const RequiredProxy = new Proxy({}, requiredProxyHandler)
+
+export function requiredTruthyFast<T extends object>(of: T): NonNull<T> {
+  requiredTarget = of
+  return RequiredProxyTruthyFast as any
+}
 
 export function requiredFast<T extends object>(of: T): NonNull<T> {
   requiredTarget = of
