@@ -24,8 +24,7 @@ const requiredProxyHandlerTruthyFast = {
       return t[prop]
     }
     // TODO: we reuse the symbol, but maybe we need different?
-    console.warn('what')
-    throw MissingDependencyErrorSymbol
+    throw 'what' //MissingDependencyErrorSymbol
   }
 }
 
@@ -41,7 +40,6 @@ const requiredProxyHandlerFast = {
 const requiredProxyHandler = {
   get(t: any, prop: any) {
     if (prop in t && t[prop] != null) {
-      console.log('DA FQ', prop, t[prop])
       return t[prop]
     }
     throw new MissingDependencyError(prop)
