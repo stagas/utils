@@ -9,6 +9,7 @@ const proxies = {
 }
 
 export const MissingDependencyErrorSymbol = Symbol('MissingDependencyError')
+export const NonTruthyDependencyErrorSymbol = Symbol('NonTruthyDependencyError')
 
 export class MissingDependencyError extends Error {
   constructor(prop: string) {
@@ -23,8 +24,7 @@ const requiredProxyHandlerTruthyFast = {
     if (prop in t && t[prop]) {
       return t[prop]
     }
-    // TODO: we reuse the symbol, but maybe we need different?
-    throw MissingDependencyErrorSymbol
+    throw NonTruthyDependencyErrorSymbol
   }
 }
 
