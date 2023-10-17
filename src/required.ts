@@ -24,6 +24,8 @@ const requiredProxyHandlerTruthyFast = {
     if (prop in t && t[prop]) {
       return t[prop]
     }
+    console.log('NONTRUTHY', prop)
+
     throw NonTruthyDependencyErrorSymbol
   }
 }
