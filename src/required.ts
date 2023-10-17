@@ -41,7 +41,7 @@ const requiredProxyHandlerFast = {
 const requiredProxyHandler = {
   get(t: any, prop: any) {
     if (prop in t && t[prop] != null) {
-      console.log('DA FQ', t[prop])
+      console.log('DA FQ', prop, t[prop])
       return t[prop]
     }
     throw new MissingDependencyError(prop)
