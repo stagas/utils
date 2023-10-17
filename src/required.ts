@@ -33,8 +33,8 @@ const requiredProxyHandlerFast = {
     if (prop in t && t[prop] != null) {
       return t[prop]
     }
-    throw new MissingDependencyError(prop)
-    // throw MissingDependencyErrorSymbol
+    console.log('MISSING', prop)
+    throw MissingDependencyErrorSymbol
   }
 }
 
