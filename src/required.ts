@@ -42,6 +42,7 @@ const requiredProxyHandler = {
     if (prop in t && t[prop] != null) {
       return t[prop]
     }
+    console.warn('what')
     throw new MissingDependencyError(prop)
   }
 }
