@@ -2,6 +2,12 @@ import { NonNull } from './types'
 
 let requiredTarget: any
 
+const proxies = {
+  requiredTruthyFast: new WeakMap(),
+  requiredFast: new WeakMap(),
+  required: new WeakMap(),
+}
+
 export const MissingDependencyErrorSymbol = Symbol('MissingDependencyError')
 
 export class MissingDependencyError extends Error {
@@ -13,9 +19,7 @@ export class MissingDependencyError extends Error {
 }
 
 const requiredProxyHandlerTruthyFast = {
-  get(_: any, prop: any) {
-    // requiredTarget can be overwritten at the getter, so we use a const copy here.
-    const t = requiredTarget
+  get(t: any, prop: any) {
     if (prop in t && t[prop]) {
       return t[prop]
     }
@@ -25,9 +29,7 @@ const requiredProxyHandlerTruthyFast = {
 }
 
 const requiredProxyHandlerFast = {
-  get(_: any, prop: any) {
-    // requiredTarget can be overwritten at the getter, so we use a const copy here.
-    const t = requiredTarget
+  get(t: any, prop: any) {
     if (prop in t && t[prop] != null) {
       return t[prop]
     }
@@ -36,9 +38,7 @@ const requiredProxyHandlerFast = {
 }
 
 const requiredProxyHandler = {
-  get(_: any, prop: any) {
-    // requiredTarget can be overwritten at the getter, so we use a const copy here.
-    const t = requiredTarget
+  get(t: any, prop: any) {
     if (prop in t && t[prop] != null) {
       return t[prop]
     }
@@ -46,21 +46,24 @@ const requiredProxyHandler = {
   }
 }
 
-const RequiredProxyTruthyFast = new Proxy({}, requiredProxyHandlerTruthyFast)
-const RequiredProxyFast = new Proxy({}, requiredProxyHandlerFast)
-const RequiredProxy = new Proxy({}, requiredProxyHandler)
+// const RequiredProxyTruthyFast = new Proxy({}, requiredProxyHandlerTruthyFast)
+// const RequiredProxyFast = new Proxy({}, requiredProxyHandlerFast)
+// const RequiredProxy = new Proxy({}, requiredProxyHandler)
 
 export function requiredTruthyFast<T extends object>(of: T): NonNull<T> {
-  requiredTarget = of
-  return RequiredProxyTruthyFast as any
+  let proxy = proxies.requiredTruthyFast.get(of)
+  if (!proxy) proxies.requiredTruthyFast.set(of, proxy = new Proxy(of, requiredProxyHandlerTruthyFast))
+  return proxy as any
 }
 
 export function requiredFast<T extends object>(of: T): NonNull<T> {
-  requiredTarget = of
-  return RequiredProxyFast as any
+  let proxy = proxies.requiredFast.get(of)
+  if (!proxy) proxies.requiredFast.set(of, proxy = new Proxy(of, requiredProxyHandlerFast))
+  return proxy as any
 }
 
 export function required<T extends object>(of: T): NonNull<T> {
-  requiredTarget = of
-  return RequiredProxy as any
+  let proxy = proxies.required.get(of)
+  if (!proxy) proxies.required.set(of, proxy = new Proxy(of, requiredProxyHandler))
+  return proxy as any
 }
