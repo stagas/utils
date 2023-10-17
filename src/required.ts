@@ -24,6 +24,7 @@ export const MissingDependencyErrorSymbol = Symbol('MissingDependencyError')
 
 const requiredProxyHandlerFast = {
   get(_: any, prop: any) {
+    console.log(prop, requiredTarget[prop])
     if (prop in requiredTarget && requiredTarget[prop] != null) {
       return requiredTarget[prop]
     }
