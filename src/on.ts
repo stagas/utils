@@ -41,13 +41,13 @@ export interface OnEventEmitterOptions extends EventEmitterOptions {
 function onEvent<T extends EventEmitter<any>, K extends EventEmitterEventKeys<T>>(
   t: T,
   e: K,
-  f: EventEmitterEvents<T>[K],
+  h: EventEmitterEvents<T>[K],
   options?: OnEventEmitterOptions
 ): Off
 function onEvent<T extends EventTarget, K extends EventKeys<T>>(
   t: T,
   e: K,
-  f: EventHandler<T, EventsOf<T>[K], K>,
+  h: EventHandler<T, EventsOf<T>[K], K>,
   options?: OnEventOptions
 ): Off
 function onEvent<T extends EventTarget, K extends EventKeys<T>>(
@@ -58,24 +58,24 @@ function onEvent<T extends EventTarget, K extends EventKeys<T>>(
 function onEvent<T extends EventTarget | EventEmitter<any>>(
   t: T,
   e: any,
-  f?: any,
+  h?: any,
   options?: OnEventOptions
 ): any {
-  if (!f || typeof f === 'object') {
-    return iterify(cb => onEvent(t as any, e, cb, f))
+  if (!h || typeof h === 'object') {
+    return iterify(cb => onEvent(t as any, e, cb, h))
   }
   if (t instanceof EventTarget) {
-    t.addEventListener(e as any, f as any, options)
+    t.addEventListener(e as any, h as any, options)
     if (options?.unsafeInitial) {
-      f()
+      h()
     }
-    return () => t.removeEventListener(e as any, f as any, options)
+    return () => t.removeEventListener(e as any, h as any, options)
   }
   else if (t instanceof EventEmitter) {
     if (options?.unsafeInitial) {
-      f()
+      h()
     }
-    return t.on(e, f, options)
+    return t.on(e, h, options)
   }
   else {
     throw new TypeError('Cannot listen for events, object is neither an EventTarget nor an EventEmitter.')
@@ -104,7 +104,7 @@ export const on = assign(
     once: function onEventOnce<T extends EventTarget, K extends EventKeys<T>>(
       t: T,
       e: K,
-      f: EventHandler<T, EventsOf<T>[K], K>,
+      h: EventHandler<T, EventsOf<T>[K], K>,
       options?: AddEventListenerOptions
     ): OnceReturn<T, K> {
       options = { ...options, once: true }
@@ -112,7 +112,7 @@ export const on = assign(
       const deferred = Deferred<EventsOf<T>[K]>()
 
       const inner: any = function (this: any, e: any) {
-        const retValue = f.call(this, e)
+        const retValue = h.call(this, e)
         deferred.resolve(e)
         return retValue
       }
@@ -132,13 +132,13 @@ export const on = assign(
       onEventOnce<T extends EventEmitter<any>, K extends EventEmitterEventKeys<T>>(
         t: T,
         e: K,
-        f: EventEmitterEvents<T>[K],
+        h: EventEmitterEvents<T>[K],
         options?: EventEmitterOptions
       ): OnceReturnEE<T, K>
       onEventOnce<T extends EventTarget, K extends EventKeys<T>>(
         t: T,
         e: K,
-        f: EventHandler<T, EventsOf<T>[K], K>,
+        h: EventHandler<T, EventsOf<T>[K], K>,
         options?: AddEventListenerOptions
       ): OnceReturn<T, K>
     }
