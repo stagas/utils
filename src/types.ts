@@ -16,7 +16,7 @@ export type ExcludeNull<T> = {
   [K in Keys<T> as T[K] extends Null ? never : K]: T[K]
 }
 export type NonNull<T> = {
-  [P in keyof T]-?: NonNullable<T[P]> // & {}
+  [P in keyof T]-?: T[P] extends string ? T[P] : T[P] & {}
 }
 export type EventTargets<T> = {
   [K in keyof T]: T[K] extends EventTarget ? T[K] : never
