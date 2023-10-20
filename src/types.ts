@@ -43,6 +43,9 @@ export type PointerLikeEvent = Mutable<Partial<Event>>
         | 'pointerleave'
         | 'pointercancel'
       } & Pick<PointerEvent, 'buttons'>)
+      | ({
+        type: 'contextmenu'
+      })
     )
     & (
       Pick<PointerEvent,
