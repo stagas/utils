@@ -24,7 +24,7 @@ export function deepMerge<T extends object>(dst: T, src: DeepPartial<T> | undefi
         Object.assign(current, value)
       }
       else {
-        deepMerge(current, value, depth - 1)
+        deepMerge(current, value, depth - 1, exclude)
       }
     }
     else {
