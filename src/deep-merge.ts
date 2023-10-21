@@ -6,7 +6,12 @@ export type DeepPartial<T> = { [K in keyof T]?:
   : T[K]
 }
 
-export function deepMerge<T extends object>(dst: T, src: DeepPartial<T> | undefined, depth = Infinity, exclude?: (v: any) => boolean): T {
+export function deepMerge<T extends object>(
+  dst: T,
+  src: DeepPartial<T> | undefined,
+  depth = Infinity,
+  exclude?: (v: any) => boolean
+): T {
   src ??= {} as T
   for (const key in src) {
     let value = src[key] as T[typeof key]
