@@ -63,15 +63,15 @@ export function rgbToHsl([r, g, b]: RGB): HSL {
   return [h, s, l];
 }
 
-export function luminate(color: string, amount: number): string {
+export function luminate(c: string, a: number): string {
   // Convert the color from hex to RGB
-  const rgb = hexToRgb(color);
+  const rgb = hexToRgb(c);
 
   // Convert the RGB values to HSL
   const hsl = rgbToHsl(rgb);
 
   // Increase the lightness value by the specified amount
-  hsl[2] += amount;
+  hsl[2] += a;
 
   // Clamp the lightness value between 0 and 1
   hsl[2] = Math.max(0, Math.min(1, hsl[2]));
@@ -83,15 +83,15 @@ export function luminate(color: string, amount: number): string {
   return rgbToHex(newRgb);
 }
 
-export function saturate(color: string, amount: number): string {
+export function saturate(c: string, a: number): string {
   // Convert the color from hex to RGB
-  const rgb = hexToRgb(color);
+  const rgb = hexToRgb(c);
 
   // Convert the RGB values to HSL
   const hsl = rgbToHsl(rgb);
 
   // Increase the saturation value by the specified amount
-  hsl[1] += amount;
+  hsl[1] += a;
 
   // Clamp the saturation value between 0 and 1
   hsl[1] = Math.max(0, Math.min(1, hsl[1]));
