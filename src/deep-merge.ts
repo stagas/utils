@@ -20,7 +20,7 @@ export function deepMerge<T extends object>(
       isObject(value)
       && isObject(current)
       && !Array.isArray(current)
-      && !exclude?.(current)
+      && !exclude?.(value)
     ) {
       if (!depth) {
         dst[key] = value
