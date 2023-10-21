@@ -34,7 +34,7 @@ export type PointerLikeEvent = Mutable<Partial<Event>>
         | 'mousedown'
         | 'mouseup'
         | 'mouseleave'
-      } & Pick<MouseEvent, 'buttons'>)
+      } & Pick<MouseEvent, 'button' | 'buttons'>)
       | ({
         type:
         | 'pointermove'
@@ -42,7 +42,7 @@ export type PointerLikeEvent = Mutable<Partial<Event>>
         | 'pointerup'
         | 'pointerleave'
         | 'pointercancel'
-      } & Pick<PointerEvent, 'buttons'>)
+      } & Pick<PointerEvent, 'button' | 'buttons'>)
       | ({
         type: 'contextmenu'
       })
