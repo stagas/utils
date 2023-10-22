@@ -11,8 +11,10 @@ export function isObjectLiteral<T>(v: T): v is T & object {
     && v.__proto__ === Object.prototype
 }
 
+// @ts-expect-error
+const typedArrayCtor = Int8Array.__proto__
 export function isArrayLike<T extends object>(v: T): v is T & { [Symbol.iterator]: unknown } {
-  return Symbol.iterator in v
+  return Array.isArray(v) || v instanceof typedArrayCtor
 }
 
 export function isFunction(x: any): x is (...args: any[]) => any {
