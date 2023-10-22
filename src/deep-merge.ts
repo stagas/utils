@@ -19,7 +19,7 @@ export function deepMerge<T extends object>(
     if (
       isObject(value)
       && isObject(current)
-      && !Array.isArray(current)
+      && !isArrayLike(current)
       && !exclude?.(value)
     ) {
       if (!depth) {
