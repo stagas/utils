@@ -1,4 +1,5 @@
 export * from './ansi-color-for.ts'
+export * from './array-maybe.ts'
 export * from './array.ts'
 export * from './arrays-equal.ts'
 export * from './assert.ts'
