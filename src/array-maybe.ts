@@ -12,3 +12,21 @@ export function maybeSplice<T>(arr: T[], item: T): T[] {
   }
   return arr
 }
+
+export function insertSorted<T>(
+  array: T[],
+  item: T,
+  compareFn: (a: T, b: T) => number
+): T[] {
+  let index = 0
+
+  while (
+    index < array.length
+    && compareFn(array[index], item) < 0) {
+    index++
+  }
+
+  array.splice(index, 0, item)
+
+  return array
+}
