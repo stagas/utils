@@ -4,12 +4,13 @@ let requiredTarget: any
 
 const proxies = {
   requiredTruthyFast: new WeakMap(),
+  requiredFalseyFast: new WeakMap(),
   requiredFast: new WeakMap(),
   required: new WeakMap(),
 }
 
 export const MissingDependencyErrorSymbol = Symbol('MissingDependencyError')
-export const NonTruthyDependencyErrorSymbol = Symbol('NonTruthyDependencyError')
+export const BooleanDependencyErrorSymbol = Symbol('BooleanDependencyError')
 
 export class MissingDependencyError extends Error {
   constructor(prop: string) {
@@ -24,7 +25,16 @@ const requiredProxyHandlerTruthyFast = {
     if (prop in t && t[prop]) {
       return t[prop]
     }
-    throw NonTruthyDependencyErrorSymbol
+    throw BooleanDependencyErrorSymbol
+  }
+}
+
+const requiredProxyHandlerFalseyFast = {
+  get(t: any, prop: any) {
+    if (prop in t && !t[prop]) {
+      return false
+    }
+    throw BooleanDependencyErrorSymbol
   }
 }
 
@@ -53,6 +63,12 @@ const requiredProxyHandler = {
 export function requiredTruthyFast<T extends object>(of: T): NonNull<T> {
   let proxy = proxies.requiredTruthyFast.get(of)
   if (!proxy) proxies.requiredTruthyFast.set(of, proxy = new Proxy(of, requiredProxyHandlerTruthyFast))
+  return proxy as any
+}
+
+export function requiredFalseyFast<T extends object>(of: T): NonNull<T> {
+  let proxy = proxies.requiredFalseyFast.get(of)
+  if (!proxy) proxies.requiredFalseyFast.set(of, proxy = new Proxy(of, requiredProxyHandlerFalseyFast))
   return proxy as any
 }
 

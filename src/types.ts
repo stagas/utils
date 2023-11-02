@@ -22,8 +22,8 @@ export type EventTargets<T> = {
   [K in keyof T]: T[K] extends EventTarget ? T[K] : never
 }
 export type Mutable<T> = {
-  -readonly [K in keyof T]: T[K];
-};
+  -readonly [K in keyof T]: T[K]
+}
 export type PointerLikeEvent = Mutable<Partial<Event>>
   & Mutable<
     & (

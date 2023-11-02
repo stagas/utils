@@ -1,5 +1,3 @@
-import { bench } from './bench.ts'
-
 export function partialSort<T>(arr: T[], endIndex: number, compareFn: (a: T, b: T) => number): void {
   if (endIndex < 2) return
   if (endIndex > arr.length) endIndex = arr.length
@@ -36,7 +34,8 @@ export function test_partialSort() {
   })
 }
 
-export function bench_partialSort() {
+export async function bench_partialSort() {
+  const { bench } = await import('./bench.ts')
   const comp = (a: number, b: number) => a - b
   const shuffleSort = (a: any, b: any) => Math.random() - .5
   const arr = [...Array(200).keys()]
