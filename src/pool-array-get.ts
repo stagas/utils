@@ -1,10 +1,10 @@
-export function poolArrayGet<T>(items: T[], i: number, factory: () => T): T {
+export function poolArrayGet<T>(array: T[], index: number, factory: () => T): T {
   let r: T
-  if (i >= items.length) {
-    items.push(r = factory())
+  if (index >= array.length) {
+    array.push(r = factory())
   }
   else {
-    r = items[i]
+    r = array[index]
   }
   return r
 }
