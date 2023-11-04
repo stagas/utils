@@ -46,8 +46,3 @@ export async function bench_partialSort() {
     arr.sort(shuffleSort)
   })
 }
-
-// @ts-expect-error
-if (import.meta.main) {
-  bench_partialSort()
-}
