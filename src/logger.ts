@@ -141,7 +141,8 @@ export function logger(path: string): Logger {
 
   const color = ansiColorFor(`[${id}]`)
   const digit = (checksum(id + id) % 100).toFixed(0).padStart(2, '0')
-  const colored = (x: string) => `${color}${digit};${ansiColorFor(x)}${x}`
+  // const colored = (x: string) => `${color}${digit};${ansiColorFor(x)}${x}`
+  const colored = (x: string) => `${ansiColorFor(x)}${x}`
 
   const lastArrow = (label: string) => label.split(' -> ').pop()!
   const withId = (label: string) => {
