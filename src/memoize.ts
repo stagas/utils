@@ -22,9 +22,9 @@ export function memoize<T>(fn: T & FnManyArgs, map = Object.create(null)): T {
   return wrapped as T
 }
 
-type FnOneArg = (arg: {}) => any
+type FnOneArg = (arg: any) => any
 export function memoizeByRef<T>(fn: T & FnOneArg, map = new Map()): T {
-  function wrapped(this: any, arg: {}) {
+  function wrapped(this: any, arg: any) {
     if (map.has(arg)) return map.get(arg)
     let res
     map.set(arg, res = fn.call(this, arg))

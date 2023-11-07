@@ -1,23 +1,37 @@
 import { deepEqual } from './deep-equal.ts'
 
-export function match<T, U, V extends object>(
+export function match<T, U, V extends M[], M extends T>(
   category: string,
   obj: T,
-  cases: [matcher: V, then: (obj: T) => U][],
-  debug?: (category: string, matcher: V, result: U, obj: T) => void
+  cases: [matchers: V, then: (obj: T) => U][],
+  debug?: (category: string, matcher: M | undefined, result: U, obj: T) => void
 ) {
   if (debug) {
-    for (const [matcher, then] of cases) {
-      if (deepEqual(obj, matcher)) {
+    for (const [matchers, then] of cases) {
+      if (!matchers.length) {
         const result = then(obj)
-        debug(category, matcher, result, obj)
-        return result
+        debug(category, void 0, result, obj)
+        if (result) return result
+      }
+      else for (const matcher of matchers) {
+        if (deepEqual(obj, matcher)) {
+          const result = then(obj)
+          debug(category, matcher, result, obj)
+          if (result) return result
+        }
       }
     }
   }
-  else for (const [matcher, then] of cases) {
-    if (deepEqual(obj, matcher)) {
-      return then(obj)
+  else for (const [matchers, then] of cases) {
+    if (!matchers.length) {
+      const result = then(obj)
+      if (result) return result
+    }
+    else for (const matcher of matchers) {
+      if (deepEqual(obj, matcher)) {
+        const result = then(obj)
+        if (result) return result
+      }
     }
   }
 }
