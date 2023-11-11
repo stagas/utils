@@ -27,6 +27,12 @@ export function cubicBezier(t: number) {
   return t * t * (3 - 2 * t)
 }
 
+export function trunc(x: number, digits: number) {
+  const [num, frac = ''] = x.toString().split('.')
+  const out = (num || '0') + '.' + frac.slice(0, digits).padEnd(digits, '0')
+  return parseFloat(out)
+}
+
 /**
  * Round half away from zero ('commercial' rounding)
  * Uses correction to offset floating-point inaccuracies.
