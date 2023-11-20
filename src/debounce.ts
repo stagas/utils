@@ -41,6 +41,13 @@ export function debounce<T extends (...args: any[]) => any>(ms: number, fn: T, o
   return wrapper as T
 }
 
+export function debounces(ms: number, options?: DebounceOptions) {
+  return function __debounces__(t: any, k: any, d: PropertyDescriptor) {
+    d.value = debounce(ms, d.value, options)
+    return d
+  }
+}
+
 export async function test_debounce() {
   // @env browser
 
