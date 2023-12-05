@@ -2,7 +2,7 @@
 
 type ObjectRecord = Record<number, object>
 
-export function objectDiff<T extends ObjectRecord>(prev: T, next: T) {
+export function objectDiff<T extends ObjectRecord>(prev: T, next: T, compareFn = Object.is) {
   const created = {} as T
   const updated = {} as T
   const deleted = {} as T
@@ -14,7 +14,7 @@ export function objectDiff<T extends ObjectRecord>(prev: T, next: T) {
       // Key is present in b but not in a, it's created
       created[key] = next[key]
     }
-    else if (prev[key] !== next[key]) {
+    else if (!compareFn(prev[key], next[key])) {
       // Key is present in both a and b, but values are different, it's updated
       updated[key] = next[key]
     }
