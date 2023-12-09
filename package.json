@@ -1,19 +1,16 @@
 {
   "name": "utils",
   "version": "1.0.0",
-  "description": "",
+  "description": "Misc utilities.",
   "main": "src/index.ts",
   "scripts": {
     "test": "utr --bro src/index.ts"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "stagas",
+  "license": "MIT",
   "devDependencies": {
     "@types/jest": "*",
-    "typescript": "*"
-  },
-  "dependencies": {
     "@total-typescript/ts-reset": "*"
   }
 }
