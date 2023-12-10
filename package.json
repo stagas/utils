@@ -4,11 +4,12 @@
   "version": "1.0.0",
   "description": "Misc utilities.",
   "license": "AGPLv3",
+  "type": "module",
   "main": "src/index.ts",
   "scripts": {
     "test": "utr --bro src/index.ts"
   },
   "devDependencies": {
-    "ambient-dts": "file:../ambient-dts"
+    "ambient-dts": "github:stagas/ambient-dts"
   }
 }
