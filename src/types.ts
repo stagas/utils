@@ -3,6 +3,7 @@ export type Narrow<K, T> = K extends T ? K : never
 export type NarrowKey<K, T> = Narrow<K, keyof T>
 export type Get<T, K> = T[NarrowKey<K, T>]
 export type StringOf<T> = Narrow<T, string>
+export type ValuesOf<T> = T[keyof T]
 export type Fn<T extends unknown[], R> = (...args: T) => R
 export type StringLiteral<T> = T extends string ? string extends T ? never : T : never
 export type StringKeys<T> = StringOf<keyof T>
