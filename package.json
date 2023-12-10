@@ -1,16 +1,14 @@
 {
   "name": "utils",
+  "author": "stagas",
   "version": "1.0.0",
   "description": "Misc utilities.",
+  "license": "AGPLv3",
   "main": "src/index.ts",
   "scripts": {
     "test": "utr --bro src/index.ts"
   },
-  "keywords": [],
-  "author": "stagas",
-  "license": "MIT",
   "devDependencies": {
-    "@types/jest": "*",
-    "@total-typescript/ts-reset": "*"
+    "ambient-dts": "file:../ambient-dts"
   }
 }

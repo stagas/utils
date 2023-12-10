@@ -1,7 +1,6 @@
 {
   "include": [
-    "src",
-    "ambient.d.ts"
+    "src"
   ],
   "compilerOptions": {
     "rootDir": ".",
@@ -35,7 +34,9 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "allowJs": true,
-    // "incremental": true,
     "strict": true,
+    "types": [
+      "ambient-dts"
+    ]
   },
 }
