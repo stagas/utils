@@ -82,3 +82,4 @@ export type PointerLikeEvent = Mutable<Partial<Event>>
 //   >
 // >
 export type PointLike = { x: number, y: number }
+export type Promised<T, U extends unknown[] = unknown[]> = (...args: U) => Promise<T>
