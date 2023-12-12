@@ -22,7 +22,7 @@ export class MapSet<K, V> {
     return new MapSet(this, true)
   }
 
-  add(key: K, value: any) {
+  add(key: K, value: V) {
     if (this.map.has(key)) {
       const set = this.map.get(key)!
       set.add(value)
