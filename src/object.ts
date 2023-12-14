@@ -1,8 +1,8 @@
 import { memoizeByRef } from './memoize'
 import { StringKeys } from './types'
 
-const { values, getPrototypeOf, getOwnPropertyDescriptor, getOwnPropertyDescriptors } = Object
-export { values }
+const { getPrototypeOf, getOwnPropertyDescriptor, getOwnPropertyDescriptors } = Object
+// export { values }
 
 export function assign<T extends {}>(o: T, p1: Partial<T>, p2: Partial<T>, p3: Partial<T>, p4: Partial<T>): T
 export function assign<T extends {}>(o: T, p1: Partial<T>, p2: Partial<T>, p3: Partial<T>): T
@@ -40,6 +40,24 @@ export function entries<
 
 export function fromEntries<K extends string, V, T>(entries: [K, V][]): { [key in K]: V } {
   return Object.fromEntries(entries) as Record<K, V>
+}
+
+export function values<
+  K extends StringKeys<T>,
+  V extends T[K],
+  T extends { [s: string]: any }
+>(obj: T): readonly V[]
+export function values<
+  K extends StringKeys<T>,
+  V extends T[K],
+  T extends ArrayLike<any>
+>(obj: T): readonly V[]
+export function values<
+  K extends StringKeys<T>,
+  V extends T[K],
+  T extends { [s: string]: any } | ArrayLike<any>
+>(obj: T): readonly V[] {
+  return Object.values(obj) as unknown as readonly V[]
 }
 
 const emptyObject = { __proto__: null } as {}
