@@ -12,6 +12,9 @@ export class LazyAsyncMap<K, V> {
 export class LazyMap<K, V> {
   map = new Map<K, V>()
   constructor(private getter: (key: K, data?: any) => V) { }
+  delete(key: K) {
+    return this.map.delete(key)
+  }
   get(key: K, data?: any) {
     if (this.map.has(key)) return this.map.get(key)!
     let value: V
