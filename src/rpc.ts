@@ -5,7 +5,7 @@ import { Getter } from './proxy-getter.ts'
 const defaultTransferables: Ctor[] = [
   typeof OffscreenCanvas !== 'undefined' ? OffscreenCanvas : void 0,
   typeof MessagePort !== 'undefined' ? MessagePort : void 0
-].filter(Boolean) as Ctor[]
+].filter(Boolean)
 
 interface PortLike {
   onmessage: ((ev: MessageEvent) => any) | null

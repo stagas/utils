@@ -38,7 +38,9 @@ export function entries<
   return Object.entries(obj) as unknown as readonly [K, V][]
 }
 
-export function fromEntries<K extends string, V, T>(entries: [K, V][]): { [key in K]: V } {
+export function fromEntries<K extends string, V>(entries: readonly [K, V][]): { [key in K]: V }
+export function fromEntries<K extends string, V>(entries: [K, V][]): { [key in K]: V }
+export function fromEntries<K extends string, V>(entries: readonly [K, V][]): { [key in K]: V } {
   return Object.fromEntries(entries) as Record<K, V>
 }
 

@@ -288,7 +288,7 @@ export function defineStruct<T extends SchemaDef>(schema: T, littleEndian = true
   return Object.assign(factory, { byteLength, type: {} as any })
 }
 
-export function test() {
+export function test_struct() {
   // @env browser
   describe('defineStruct', () => {
     it('plain struct', () => {

@@ -15,6 +15,9 @@ export class LazyMap<K, V> {
   delete(key: K) {
     return this.map.delete(key)
   }
+  values() {
+    return this.map.values()
+  }
   get(key: K, data?: any) {
     if (this.map.has(key)) return this.map.get(key)!
     let value: V

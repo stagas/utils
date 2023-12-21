@@ -7,31 +7,31 @@ export class LazyPool<T, U> {
     public comparator: (a: U, b: U) => boolean = (a, b) => a === b,
   ) {}
   from(arrayInput: U[]): T[] {
-    const { pool, mapping } = this
+    const { pool, mapping, factory, update, comparator } = this
     const newMapping = new Map<U, T>()
     const result: T[] = []
 
     for (const [index, item] of arrayInput.entries()) {
       let foundMatch = false
       for (const [key, value] of mapping) {
-        if (this.comparator(item, key)) {
-          result.push(this.update(item, value, index))
+        if (comparator(item, key)) {
+          result.push(update(item, value, index))
           newMapping.set(item, value)
           foundMatch = true
           break
         }
       }
       if (!foundMatch) {
-        const tObject = pool.pop() ?? this.factory(item)
-        result.push(this.update(item, tObject, index))
-        newMapping.set(item, tObject)
+        const target = pool.pop() ?? factory(item)
+        result.push(update(item, target, index))
+        newMapping.set(item, target)
       }
     }
 
     for (const [key, value] of mapping) {
       let stillExists = false
       for (const newItem of arrayInput) {
-        if (this.comparator(key, newItem)) {
+        if (comparator(key, newItem)) {
           stillExists = true
           break
         }
