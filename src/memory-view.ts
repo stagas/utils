@@ -45,7 +45,7 @@ export function getMemoryView(memory: WebAssembly.Memory): MemoryView {
   }
 
   function getU8(ptr: number, length: number) {
-    const address = ptr >> 2
+    const address = ptr
     return heapU8.subarray(address, address + length)
   }
 
