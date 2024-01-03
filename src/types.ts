@@ -34,6 +34,7 @@ export type PointerLikeEvent = Mutable<Partial<Event>>
         | 'mousemove'
         | 'mousedown'
         | 'mouseup'
+        | 'mouseenter'
         | 'mouseleave'
       } & Pick<MouseEvent, 'button' | 'buttons'>)
       | ({
