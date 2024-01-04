@@ -31,6 +31,13 @@ export type PointerLikeEvent = Mutable<Partial<Event>>
       | ({ type: 'wheel' } & Pick<WheelEvent, 'deltaX' | 'deltaY'>)
       | ({
         type:
+        | 'touchmove'
+        | 'touchstart'
+        | 'touchend'
+        | 'touchcancel'
+      } & Pick<TouchEvent, 'touches'>)
+      | ({
+        type:
         | 'mousemove'
         | 'mousedown'
         | 'mouseup'
