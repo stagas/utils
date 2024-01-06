@@ -15,6 +15,9 @@ export const dom = {
   get head() {
     return document.head
   },
+  setText(el: Element | null, text: string | number) {
+    if (el) el.textContent = `${text}`
+  },
   observe,
   stop,
   prevent,
