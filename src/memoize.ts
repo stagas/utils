@@ -1,3 +1,5 @@
+import { Deferred } from './deferred.ts'
+
 /**
  * Memoize a function.
  *
@@ -31,4 +33,17 @@ export function memoizeByRef<T>(fn: T & FnOneArg, map = new Map()): T {
     return res
   }
   return wrapped as T
+}
+
+export function memoizeAsync<T, U extends unknown[], V extends unknown>(fn: (this: V, ...args: U) => Promise<T>) {
+  let deferred: Deferred<T>
+  return async function memoizeAsyncInner(this: V, ...args: U) {
+    if (deferred) return deferred.promise
+    deferred = Deferred()
+    const result = await fn.apply(this, args)
+    queueMicrotask(() => {
+      deferred.resolve(result)
+    })
+    return result
+  }
 }

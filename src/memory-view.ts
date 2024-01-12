@@ -69,6 +69,30 @@ export function getMemoryView(memory: WebAssembly.Memory): MemoryView {
     heapF64[address] = value
   }
 
+  // function readString(pointer: number) {
+  //   if (!pointer) return null
+
+  //   const end = pointer + heapU32[pointer - 4 >>> 2] >>> 1
+  //   let start = pointer >>> 1
+  //   let string = ''
+
+  //   while (end - start > 1024) {
+  //     string += String.fromCharCode(
+  //       ...heapU16.subarray(
+  //         start,
+  //         start += 1024
+  //       )
+  //     )
+  //   }
+
+  //   return string + String.fromCharCode(
+  //     ...heapU16.subarray(
+  //       start,
+  //       end
+  //     )
+  //   )
+  // }
+
   function readString(pointer: number) {
     if (!pointer) return null
 
@@ -76,22 +100,15 @@ export function getMemoryView(memory: WebAssembly.Memory): MemoryView {
     let start = pointer >>> 1
     let string = ''
 
-    while (end - start > 1024) {
-      string += String.fromCharCode(
-        ...heapU16.subarray(
-          start,
-          start += 1024
-        )
-      )
+    while (start < end) {
+      const nextChunkEnd = Math.min(start + 1024, end)
+      string += String.fromCharCode(...heapU16.subarray(start, nextChunkEnd))
+      start = nextChunkEnd
     }
 
-    return string + String.fromCharCode(
-      ...heapU16.subarray(
-        start,
-        end
-      )
-    )
+    return string
   }
+
 
   function readTypedArray(constructor: Float32ArrayConstructor, ptr: number) {
     if (!ptr) return null
