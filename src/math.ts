@@ -4,6 +4,11 @@ export function clamp(min: number, max: number, x: number) {
   return x
 }
 
+export function fract(x: number) {
+  const xi = Math.floor(x)
+  return x - xi
+}
+
 // chatgpt
 export function nextPowerOfTwo(x: number): number {
   // If x is already a power of two, return it
