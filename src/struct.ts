@@ -54,6 +54,7 @@ interface StructViewData {
   byteOffset: number
   byteLength: number
   littleEndian: boolean
+  ptr: number
 }
 
 type StructFactoryFn<T extends SchemaDef> = {
@@ -216,7 +217,10 @@ export function defineStruct<T extends SchemaDef>(schema: T, littleEndian = true
       dataView,
       byteOffset,
       byteLength,
-      littleEndian
+      littleEndian,
+      get ptr() {
+        return this.byteOffset
+      }
     }
 
     const structView: StructView<T> = structViewData as StructView<T>
