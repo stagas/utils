@@ -186,7 +186,7 @@ function getSizeOf<T extends SchemaDef>(schema: T) {
   return byteLength
 }
 
-export function defineStruct<T extends SchemaDef>(schema: T, littleEndian = true): StructFactory<T> {
+export function Struct<T extends SchemaDef>(schema: T, littleEndian = true): StructFactory<T> {
   let byteLength = getSizeOf(schema)
 
   const factory: StructFactoryFn<T> = (buffer, byteOffset?: number) => {
@@ -296,7 +296,7 @@ export function test_struct() {
   // @env browser
   describe('defineStruct', () => {
     it('plain struct', () => {
-      const Foo = defineStruct({
+      const Foo = Struct({
         u8: 'u8',
         f32_4: ['f32', 4],
       })
@@ -318,13 +318,13 @@ export function test_struct() {
     })
 
     fit('nested struct', () => {
-      const Bar = defineStruct({
+      const Bar = Struct({
         u32: 'u32',
         u8: ['u8', 2],
         f64_2: ['f64', 2],
       })
 
-      const Foo = defineStruct({
+      const Foo = Struct({
         u8: 'u8',
         f64: 'f64',
         f32_4: ['f32', 4],
