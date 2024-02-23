@@ -94,7 +94,7 @@ export function saturate(c: string, a: number): string {
   hsl[1] += a;
 
   // Clamp the saturation value between 0 and 1
-  hsl[1] = Math.max(0, Math.min(1, hsl[1]));
+  // hsl[1] = Math.max(0, Math.min(1, hsl[1]));
 
   // Convert the HSL values back to RGB
   const newRgb = hslToRgb(hsl);
