@@ -193,7 +193,7 @@ export function Struct<T extends SchemaDef>(schema: T, littleEndian = true): Str
     let arrayBuffer: ArrayBuffer
     let dataView: DataView | undefined
 
-    if (buffer instanceof ArrayBuffer || buffer instanceof SharedArrayBuffer) {
+    if (buffer instanceof ArrayBuffer || (typeof SharedArrayBuffer !== 'undefined' && buffer instanceof SharedArrayBuffer)) {
       arrayBuffer = buffer
     }
     else {
