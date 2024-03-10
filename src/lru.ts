@@ -1,12 +1,12 @@
-export function Lru<T>(
+export function Lru<T, U extends any[], V extends any>(
   max: number,
-  fn: (length: number) => T,
+  fn: (key: V, ...args: U) => T,
   clear: (item: T) => void,
   free: (item: T) => void
 ) {
-  let items = new Map<number, T>()
-  return (length: number) => {
-    let item = items.get(length)
+  let items = new Map<V, T>()
+  return (key: V, ...args: U) => {
+    let item = items.get(key)
     if (!item) {
       while (items.size >= max) {
         const [first, ...rest] = items
@@ -14,14 +14,14 @@ export function Lru<T>(
         free(value)
         items = new Map(rest)
       }
-      items.set(length, item = fn(length))
+      items.set(key, item = fn(key, ...args))
     }
     else {
       clear(item)
 
       // move to last
-      items.delete(length)
-      items.set(length, item)
+      items.delete(key)
+      items.set(key, item)
     }
     return item
   }
