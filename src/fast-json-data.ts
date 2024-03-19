@@ -1,5 +1,43 @@
+/**
+const schema = [[Literal, [
+  '_id',
+  '_rev',
+  'name',
+  'homepage',
+  ['versions', ['*', [
+    'name',
+    'gitHead',
+    ['os', [Literal]],
+    ['cpu', [Literal]],
+    ['engines', ['*']],
+    ['dist', [
+      'shasum',
+      'tarball',
+      'unpackedSize',
+    ]],
+    ['dependencies', [
+      '*',
+    ]],
+  ]]],
+
+  ['time', ['*']],
+]]]
+
+await fsp.writeFile(
+  options.packumentCachePath,
+  stringify(schema, [...packumentCache]),
+  'utf-8'
+)
+
+json = parse(schema, await fsp.readFile(options.packumentCachePath, 'utf-8'))
+
+*/
 export namespace FastJson {
   export const Literal = Symbol()
+
+  const OPEN = '\x01\n'
+  const CLOSE = '\x02\n'
+  const CLOSE_1 = '\x02'
 
   export function stringify(schema: any, input: any): string {
     let s = ''
@@ -7,18 +45,19 @@ export namespace FastJson {
 
     if (schema.length === 1) {
       if (typeof (key = schema[0]) === 'object') {
-        if (input?.length)
+        if (input?.length) {
           for (i = 0; i < input.length; i++) {
-            s += '>\n' + stringify(key, input[i])
+            s += OPEN + stringify(key, input[i])
           }
-        s += '<\n'
+        }
+        s += CLOSE
         return s
       } else if (key === Literal) {
         if (input?.length)
           for (i = 0; i < input.length; i++) {
             s += input[i] + '\n'
           }
-        s += '<\n'
+        s += CLOSE
         return s
       }
     }
@@ -45,12 +84,12 @@ export namespace FastJson {
           for (const k in input) {
             s += k + '\n' + stringify(key, input[k])
           }
-          s += '<' + '\n'
+          s += CLOSE
         } else {
           for (k in input) {
             s += `${k},${input[k]}` + '\n'
           }
-          s += '<' + '\n'
+          s += CLOSE
         }
       } else {
         s += (input[key] ?? '') + '\n'
@@ -71,7 +110,7 @@ export namespace FastJson {
       if (typeof (key = schema[0]) === 'object') {
         out = []
         for (; input.index < input.length;) {
-          if (input[input.index++] === '<') break
+          if (input[input.index++] === CLOSE_1) break
           out.push(parseLines(key, input))
         }
         return out
@@ -79,7 +118,7 @@ export namespace FastJson {
         out = []
         for (let item; input.index < input.length;) {
           item = input[input.index++]
-          if (item === '<') break
+          if (item === CLOSE_1) break
           out.push(item)
         }
         return out
@@ -109,13 +148,13 @@ export namespace FastJson {
           key = schema[i]
           for (let k; input.index < input.length;) {
             k = input[input.index++]
-            if (k === '<') break
+            if (k === CLOSE_1) break
             out[k] = parseLines(key, input)
           }
         } else {
           for (let kv; input.index < input.length;) {
             kv = input[input.index++]
-            if (kv === '<') break
+            if (kv === CLOSE_1) break
             const comma = kv.indexOf(',')
             out[kv.slice(0, comma)] = kv.slice(comma + 1)
           }
