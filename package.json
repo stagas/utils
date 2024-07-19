@@ -10,6 +10,7 @@
     "test": "utr --bro src/index.ts"
   },
   "devDependencies": {
-    "ambient-dts": "github:stagas/ambient-dts"
+    "ambient-dts": "github:stagas/ambient-dts",
+    "vite-plugin-node-polyfills": "^0.22.0"
   }
 }
