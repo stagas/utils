@@ -317,7 +317,7 @@ export function test_struct() {
       expect(foo.f32_4.get(2)).toEqual(3)
     })
 
-    fit('nested struct', () => {
+    it('nested struct', () => {
       const Bar = Struct({
         u32: 'u32',
         u8: ['u8', 2],
@@ -350,7 +350,7 @@ export function test_struct() {
     })
   })
 
-  xdescribe('uint32 or dataview', () => {
+  describe('uint32 or dataview', () => {
     it('compare Uint8', async () => {
       const length = 2048
       const a = new Uint8Array(length)
