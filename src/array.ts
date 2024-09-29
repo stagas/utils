@@ -5,3 +5,13 @@ export function array<T>(
     of(i)
   )
 }
+
+export function insert<T>(array: T[], index: number, ...items: T[]) {
+  array.splice(index, 0, ...items)
+  return array
+}
+
+export function remove<T>(array: T[], index: number) {
+  array.splice(index, 1)
+  return array
+}

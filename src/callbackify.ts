@@ -1,5 +1,5 @@
-import { consumify } from './consumify'
-import { Deferred } from './deferred'
+import { consumify } from './consumify.ts'
+import { Deferred } from './deferred.ts'
 
 export function callbackify<T>(fn: () => AsyncIterableIterator<T>, cb: (v: T) => void) {
   const deferred = Deferred<void>()

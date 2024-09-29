@@ -1,4 +1,4 @@
-import { entries, fromEntries } from './object'
+import { entries, fromEntries } from './object.ts'
 
 export function error(errCtor: ErrorConstructor, name: string, pre?: string) {
   return class extends errCtor {

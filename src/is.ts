@@ -1,5 +1,5 @@
-import { memoizeByRef } from './memoize'
-import { Ctor } from './types'
+import { memoizeByRef } from './memoize.ts'
+import { Ctor } from './types.ts'
 
 export function isObject<T>(v: T): v is T & object {
   return typeof v === 'object' && v !== null && !Array.isArray(v)

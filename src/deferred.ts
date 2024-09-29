@@ -43,3 +43,13 @@ export function Deferred<T>() {
 
   return deferred
 }
+
+export function defer<T>(fn: (...args: unknown[]) => T) {
+  const { resolve, promise } = Deferred<T>()
+  return {
+    promise,
+    [Symbol.dispose]() {
+      resolve(fn())
+    }
+  }
+}

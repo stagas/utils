@@ -1,6 +1,4 @@
-import { NonNull } from './types'
-
-let requiredTarget: any
+import { NonNull } from './types.ts'
 
 const proxies = {
   requiredTruthyFast: new WeakMap(),
@@ -55,10 +53,6 @@ const requiredProxyHandler = {
     throw new MissingDependencyError(prop)
   }
 }
-
-// const RequiredProxyTruthyFast = new Proxy({}, requiredProxyHandlerTruthyFast)
-// const RequiredProxyFast = new Proxy({}, requiredProxyHandlerFast)
-// const RequiredProxy = new Proxy({}, requiredProxyHandler)
 
 export function requiredTruthyFast<T extends object>(of: T): NonNull<T> {
   let proxy = proxies.requiredTruthyFast.get(of)

@@ -1,5 +1,5 @@
-import { memoizeByRef } from './memoize'
-import { StringKeys } from './types'
+import { memoizeByRef } from './memoize.ts'
+import { StringKeys } from './types.ts'
 
 const { getPrototypeOf, getOwnPropertyDescriptor, getOwnPropertyDescriptors } = Object
 // export { values }

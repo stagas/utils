@@ -1,4 +1,4 @@
-import { iterify } from './iterify'
+import { iterify } from './iterify.ts'
 
 type Off = (() => void) | void
 
