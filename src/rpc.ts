@@ -100,7 +100,7 @@ export const rpc = <TRemote extends object>(
       )
     }
     catch (error) {
-      console.error('Call failed: ' + method, args)
+      console.error(`Rpc call failed: "${method}"`, args, error)
     }
 
     return deferred.promise

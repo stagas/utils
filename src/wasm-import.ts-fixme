@@ -1,3 +1,5 @@
+// module has issue being loaded in worklet because of the symbol URL
+// causing vite/client to be injected, so we have disabled it for now
 import { wasmSourceMap } from './wasm-sourcemap.ts'
 
 export async function wasmImport(url: string, src: string) {
