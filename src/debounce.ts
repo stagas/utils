@@ -2,6 +2,7 @@ interface DebounceOptions {
   first?: boolean
   last?: boolean
 }
+
 export function debounce<T extends (...args: any[]) => any>(ms: number, fn: T, options?: DebounceOptions): T {
   let resolving = false
 

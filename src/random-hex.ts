@@ -1,9 +1,9 @@
-export function randomHex(digits = 3, minHex = '888', maxHex = 'bbb') {
-  const min = parseInt(minHex, 16)
-  const max = parseInt(maxHex, 16)
+export function randomHex(digits = 3, minHex: number | string = '8', maxHex: number | string = 'b') {
+  const min = parseInt(minHex.toString(), 16)
+  const max = parseInt(maxHex.toString(), 16)
   const scale = max - min
-  const hex = ((
-    (Math.random() * scale) | 0
-  ) + min).toString(16).padStart(digits, '0')
+  const hex = Array.from({ length: digits }, () =>
+    (((Math.random() * scale) | 0) + min).toString(16)
+  ).join('')
   return hex
 }

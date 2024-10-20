@@ -9,5 +9,5 @@ export function chain(...rest: AnyFn[]) {
 }
 
 function runFns(fns: AnyFn[], ...args: any[]) {
-  for (const fn of fns) (fn as any)?.(...args)
+  for (const fn of fns) fn && (fn as any)(...args)
 }
