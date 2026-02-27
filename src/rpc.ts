@@ -100,14 +100,14 @@ export const rpc = <TRemote extends object>(
       )
     }
     catch (error) {
-      console.error(`Rpc call failed: "${method}"`, args, error)
+      console.error(`Rpc call failed: "${method}"`, args.map(x => x.constructor.name + ': ' + x.toString()), error)
     }
 
     return deferred.promise
   }
 
   const getter = Getter(key =>
-    call.bind(null, key),
+    key === 'then' ? undefined : call.bind(null, key),
     call
   ) as unknown as Rpc & TRemote
 
